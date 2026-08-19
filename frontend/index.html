@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Context Compressor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 12L10 6M4 12L10 18M4 12H15M20 12L15 7M20 12L15 17" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">SCC</span>
+                    <span class="brand-sub">v2.4.1</span>
+                </div>
+            </div>
+
+            <nav class="nav">
+                <a href="#" class="nav-item active" data-nav="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8" />
+                        <rect x="14" y="3" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.8" />
+                        <rect x="14" y="12" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8" />
+                        <rect x="3" y="16" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.8" />
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-nav="compression">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M8 4L4 12L8 20M16 4L20 12L16 20" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span>Compression</span>
+                </a>
+                <a href="#" class="nav-item" data-nav="analysis">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M3 21V13M9 21V7M15 21V11M21 21V4" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" />
+                    </svg>
+                    <span>Analysis</span>
+                </a>
+                <a href="#" class="nav-item" data-nav="history">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M3 12A9 9 0 1 0 6 5.3L3 8" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3 3V8H8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M12 7V12L16 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span>History</span>
+                </a>
+                <a href="#" class="nav-item" data-nav="settings">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" />
+                        <path
+                            d="M19.4 15A1.65 1.65 0 0021 13.3v-2.6A1.65 1.65 0 0019.4 9a1.65 1.65 0 01-1.5-1.5A1.65 1.65 0 0016.7 4.6l-2.25-1.3a1.65 1.65 0 00-2.1.4 1.65 1.65 0 01-2.2 0 1.65 1.65 0 00-2.1-.4L5.8 4.6A1.65 1.65 0 004.6 7.5 1.65 1.65 0 013 9a1.65 1.65 0 00-1.4 1.7v2.6A1.65 1.65 0 003 15a1.65 1.65 0 011.5 1.5 1.65 1.65 0 001.2 2.9l2.25 1.3a1.65 1.65 0 002.1-.4 1.65 1.65 0 012.2 0 1.65 1.65 0 002.1.4l2.25-1.3a1.65 1.65 0 001.2-2.9A1.65 1.65 0 0119.4 15z"
+                            stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+                    </svg>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item" data-nav="help">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" />
+                        <path d="M9.5 9a2.5 2.5 0 015 0c0 1.7-2.2 2-2.4 3.5" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" />
+                        <circle cx="12" cy="17" r="0.9" fill="currentColor" />
+                    </svg>
+                    <span>Help</span>
+                </a>
+            </nav>
+
+            <div class="pro-card">
+                <div class="pro-glow"></div>
+                <div class="pro-icon">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path
+                            d="M12 2L14.5 8.5L21 9.3L16.2 13.9L17.5 20.5L12 17.1L6.5 20.5L7.8 13.9L3 9.3L9.5 8.5L12 2Z"
+                            stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h4>Pro Plan</h4>
+                <p>Unlimited compressions, priority LLM routing &amp; advanced BM25 tuning.</p>
+                <button class="pro-btn">Upgrade Now</button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <div class="main">
+
+            <!-- HEADER -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title">Smart Context Compressor</h1>
+                    <p class="page-sub">Compress long contexts. Preserve meaning. Save tokens.</p>
+                </div>
+
+                <div class="topbar-stats">
+                    <div class="stat-card">
+                        <span class="stat-label">Total Compressions</span>
+                        <span class="stat-value" id="statTotal">1,284</span>
+                        <span class="stat-trend up">+12.4%</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Avg. Reduction</span>
+                        <span class="stat-value" id="statAvgReduction">68.3%</span>
+                        <span class="stat-trend up">+3.1%</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Tokens Saved</span>
+                        <span class="stat-value" id="statTokensSaved">4.8M</span>
+                        <span class="stat-trend up">+0.6M</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Avg. Latency</span>
+                        <span class="stat-value" id="statLatency">842ms</span>
+                        <span class="stat-trend down">-54ms</span>
+                    </div>
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="icon-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+                        <svg id="sunIcon" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8" />
+                            <path
+                                d="M12 2.5V5M12 19V21.5M21.5 12H19M5 12H2.5M18.5 5.5L16.8 7.2M7.2 16.8L5.5 18.5M18.5 18.5L16.8 16.8M7.2 7.2L5.5 5.5"
+                                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                        </svg>
+                        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" style="display:none">
+                            <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" stroke="currentColor"
+                                stroke-width="1.8" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <button class="btn-reset" id="resetBtn">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M3 12A9 9 0 1 0 6 5.3L3 8" stroke="currentColor" stroke-width="1.8"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M3 3V8H8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        Reset
+                    </button>
+                </div>
+            </header>
+
+            <!-- CONTENT GRID -->
+            <main class="content">
+
+                <!-- LEFT COLUMN -->
+                <section class="col col-left">
+
+                    <!-- Input Card -->
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Enter Context &amp; Query</h2>
+                            <span class="badge">Step 1</span>
+                        </div>
+                        <label class="field-label" for="contextInput">Context</label>
+                        <textarea id="contextInput" class="textarea"
+                            placeholder="Paste your long document, transcript, or retrieved chunks here...">Retrieval-Augmented Generation (RAG) combines a retriever with a generative language model. The retriever searches a large corpus of documents and returns the most relevant passages, which are then passed as context to the LLM alongside the user's query. This helps ground the model's output in factual, up-to-date information rather than relying solely on parametric memory.
+
+A common challenge with RAG pipelines is context length. As the number of retrieved chunks grows, the prompt can quickly exceed the model's context window, increase latency, and raise inference costs. Naive truncation risks discarding relevant information, while including everything wastes tokens on redundant or low-relevance content.
+
+Smart context compression addresses this by scoring, ranking, and selectively compressing retrieved chunks before they reach the LLM. Techniques like BM25 ranking identify the most query-relevant passages, while LLM-based summarization condenses verbose sections without losing key facts. The result is a compact, high-signal context that preserves answer quality while significantly reducing token usage.
+
+Evaluations across multiple QA benchmarks show that well-tuned compression pipelines can reduce token counts by 50-75% with less than a 2% drop in downstream answer accuracy, making them a practical optimization for production RAG systems operating at scale.</textarea>
+
+                        <label class="field-label" for="queryInput">Query</label>
+                        <input id="queryInput" class="text-input" type="text"
+                            placeholder="What question should the context answer?"
+                            value="How does smart context compression reduce token usage in RAG pipelines?">
+
+                        <div class="input-footer">
+                            <div class="token-estimate">Estimated input: <span id="estTokens">312</span> tokens</div>
+                            <button class="btn-compress" id="compressBtn">
+                                <span class="btn-compress-glow"></span>
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M8 4L4 12L8 20M16 4L20 12L16 20" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <span>Compress Context</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Processing Status -->
+                    <div class="card" id="processCard">
+                        <div class="card-head">
+                            <h2>Processing Status</h2>
+                            <span class="badge idle" id="processBadge">Idle</span>
+                        </div>
+                        <div class="steps">
+                            <div class="step" data-step="1">
+                                <div class="step-icon"><span class="step-num">1</span><svg class="check"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <path d="M5 12.5L10 17.5L19 7" stroke="currentColor" stroke-width="2.2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg></div>
+                                <div class="step-body">
+                                    <span class="step-title">Chunking</span>
+                                    <span class="step-desc">Splitting context into semantic chunks</span>
+                                </div>
+                                <div class="step-spinner"></div>
+                            </div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="2">
+                                <div class="step-icon"><span class="step-num">2</span><svg class="check"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <path d="M5 12.5L10 17.5L19 7" stroke="currentColor" stroke-width="2.2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg></div>
+                                <div class="step-body">
+                                    <span class="step-title">BM25 Ranking</span>
+                                    <span class="step-desc">Scoring chunks against the query</span>
+                                </div>
+                                <div class="step-spinner"></div>
+                            </div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="3">
+                                <div class="step-icon"><span class="step-num">3</span><svg class="check"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <path d="M5 12.5L10 17.5L19 7" stroke="currentColor" stroke-width="2.2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg></div>
+                                <div class="step-body">
+                                    <span class="step-title">LLM Compression</span>
+                                    <span class="step-desc">Condensing high-relevance chunks</span>
+                                </div>
+                                <div class="step-spinner"></div>
+                            </div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="4">
+                                <div class="step-icon"><span class="step-num">4</span><svg class="check"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <path d="M5 12.5L10 17.5L19 7" stroke="currentColor" stroke-width="2.2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg></div>
+                                <div class="step-body">
+                                    <span class="step-title">Token Calculation</span>
+                                    <span class="step-desc">Measuring final token savings</span>
+                                </div>
+                                <div class="step-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compression Pipeline -->
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Compression Pipeline</h2>
+                        </div>
+                        <div class="pipeline">
+                            <div class="pipe-node">
+                                <div class="pipe-icon"><svg viewBox="0 0 24 24" fill="none">
+                                        <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8" />
+                                        <path d="M5 20c0-3.6 3.1-6.5 7-6.5s7 2.9 7 6.5" stroke="currentColor"
+                                            stroke-width="1.8" stroke-linecap="round" />
+                                    </svg></div>
+                                <span>User</span>
+                            </div>
+                            <div class="pipe-arrow">→</div>
+                            <div class="pipe-node">
+                                <div class="pipe-icon"><svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M4 6h16M4 12h10M4 18h13" stroke="currentColor" stroke-width="1.8"
+                                            stroke-linecap="round" />
+                                    </svg></div>
+                                <span>Context + Query</span>
+                            </div>
+                            <div class="pipe-arrow">→</div>
+                            <div class="pipe-node active">
+                                <div class="pipe-icon"><svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M8 4L4 12L8 20M16 4L20 12L16 20" stroke="currentColor"
+                                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg></div>
+                                <span>Compress</span>
+                            </div>
+                            <div class="pipe-arrow">→</div>
+                            <div class="pipe-node">
+                                <div class="pipe-icon"><svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 3v13M7 11l5 5 5-5M5 21h14" stroke="currentColor" stroke-width="1.8"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg></div>
+                                <span>Results</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- RIGHT COLUMN -->
+                <section class="col col-right">
+
+                    <!-- Compression Results -->
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Compression Results</h2>
+                            <span class="badge success" id="resultsBadge">Awaiting run</span>
+                        </div>
+
+                        <div class="results-grid">
+                            <div class="result-tile">
+                                <span class="result-label">Original Tokens</span>
+                                <span class="result-value" id="origTokens">312</span>
+                            </div>
+                            <div class="result-tile">
+                                <span class="result-label">Compressed Tokens</span>
+                                <span class="result-value accent" id="compTokens">—</span>
+                            </div>
+                            <div class="result-tile">
+                                <span class="result-label">Reduction</span>
+                                <span class="result-value accent" id="reductionPct">—</span>
+                            </div>
+                        </div>
+
+                        <div class="savings-bar-wrap">
+                            <div class="savings-bar-labels">
+                                <span>Token Savings</span>
+                                <span id="savingsPctLabel">0%</span>
+                            </div>
+                            <div class="savings-bar-track">
+                                <div class="savings-bar-fill" id="savingsBarFill"></div>
+                            </div>
+                        </div>
+
+                        <label class="field-label">Compressed Context</label>
+                        <div class="compressed-output" id="compressedOutput">
+                            <span class="output-placeholder">Run a compression to see the optimized context here.</span>
+                        </div>
+
+                        <div class="output-actions">
+                            <button class="btn-secondary" id="copyBtn">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor"
+                                        stroke-width="1.8" />
+                                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"
+                                        stroke="currentColor" stroke-width="1.8" />
+                                </svg>
+                                Copy
+                            </button>
+                            <button class="btn-secondary" id="downloadBtn">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 3v12M7 11l5 5 5-5M5 21h14" stroke="currentColor" stroke-width="1.8"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Context Analysis -->
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Context Analysis</h2>
+                        </div>
+                        <div class="analysis-summary">
+                            <div class="analysis-tile">
+                                <span class="a-value" id="totalChunks">4</span>
+                                <span class="a-label">Total Chunks</span>
+                            </div>
+                            <div class="analysis-tile">
+                                <span class="a-value good" id="selectedChunks">3</span>
+                                <span class="a-label">Selected</span>
+                            </div>
+                            <div class="analysis-tile">
+                                <span class="a-value muted" id="discardedChunks">1</span>
+                                <span class="a-label">Discarded</span>
+                            </div>
+                        </div>
+
+                        <label class="field-label">BM25 Scores</label>
+                        <div class="chunk-list" id="chunkList">
+                            <div class="chunk-row selected">
+                                <div class="chunk-row-top">
+                                    <span class="chunk-name">Chunk 3 — Compression techniques</span>
+                                    <span class="chunk-score">0.91</span>
+                                </div>
+                                <div class="chunk-bar-track">
+                                    <div class="chunk-bar-fill" style="width:91%"></div>
+                                </div>
+                            </div>
+                            <div class="chunk-row selected">
+                                <div class="chunk-row-top">
+                                    <span class="chunk-name">Chunk 2 — Context length challenge</span>
+                                    <span class="chunk-score">0.78</span>
+                                </div>
+                                <div class="chunk-bar-track">
+                                    <div class="chunk-bar-fill" style="width:78%"></div>
+                                </div>
+                            </div>
+                            <div class="chunk-row selected">
+                                <div class="chunk-row-top">
+                                    <span class="chunk-name">Chunk 4 — Benchmark results</span>
+                                    <span class="chunk-score">0.64</span>
+                                </div>
+                                <div class="chunk-bar-track">
+                                    <div class="chunk-bar-fill" style="width:64%"></div>
+                                </div>
+                            </div>
+                            <div class="chunk-row discarded">
+                                <div class="chunk-row-top">
+                                    <span class="chunk-name">Chunk 1 — RAG overview</span>
+                                    <span class="chunk-score">0.31</span>
+                                </div>
+                                <div class="chunk-bar-track">
+                                    <div class="chunk-bar-fill" style="width:31%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Original vs Compressed -->
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Original vs Compressed</h2>
+                        </div>
+                        <div class="compare-grid">
+                            <div class="compare-col">
+                                <span class="compare-label">Original</span>
+                                <div class="compare-box" id="compareOriginal">Retrieval-Augmented Generation (RAG)
+                                    combines a retriever with a generative language model, grounding LLM output in
+                                    retrieved documents. A key challenge is context length — naive truncation loses
+                                    information while including everything wastes tokens on redundant content...</div>
+                            </div>
+                            <div class="compare-col">
+                                <span class="compare-label accent">Compressed</span>
+                                <div class="compare-box accent" id="compareCompressed">Smart compression scores chunks
+                                    via BM25, ranks by query relevance, and condenses the top matches with an LLM —
+                                    cutting token usage 50–75% while keeping answer accuracy within 2% of the full
+                                    context.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </main>
+
+            <footer class="footer">
+                <div class="footer-inner">
+                    <span class="footer-tag">Save tokens. Keep meaning.</span>
+                    <span class="footer-copy">Smart Context Compressor © 2026</span>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
