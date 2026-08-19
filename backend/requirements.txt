@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+rank-bm25
+langchain-groq
+tiktoken

@@ -1,0 +1,33 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables / API keys
+.env
+
+# IDE settings
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# Test/cache files
+.pytest_cache/
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated/uploaded files
+backend/uploads/
+backend/generated/
