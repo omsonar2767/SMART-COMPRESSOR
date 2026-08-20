@@ -173,13 +173,7 @@
                         </div>
                         <label class="field-label" for="contextInput">Context</label>
                         <textarea id="contextInput" class="textarea"
-                            placeholder="Paste your long document, transcript, or retrieved chunks here...">Retrieval-Augmented Generation (RAG) combines a retriever with a generative language model. The retriever searches a large corpus of documents and returns the most relevant passages, which are then passed as context to the LLM alongside the user's query. This helps ground the model's output in factual, up-to-date information rather than relying solely on parametric memory.
-
-A common challenge with RAG pipelines is context length. As the number of retrieved chunks grows, the prompt can quickly exceed the model's context window, increase latency, and raise inference costs. Naive truncation risks discarding relevant information, while including everything wastes tokens on redundant or low-relevance content.
-
-Smart context compression addresses this by scoring, ranking, and selectively compressing retrieved chunks before they reach the LLM. Techniques like BM25 ranking identify the most query-relevant passages, while LLM-based summarization condenses verbose sections without losing key facts. The result is a compact, high-signal context that preserves answer quality while significantly reducing token usage.
-
-Evaluations across multiple QA benchmarks show that well-tuned compression pipelines can reduce token counts by 50-75% with less than a 2% drop in downstream answer accuracy, making them a practical optimization for production RAG systems operating at scale.</textarea>
+                            placeholder="Paste your long document, transcript, or retrieved chunks here..."></textarea>
 
                         <label class="field-label" for="queryInput">Query</label>
                         <input id="queryInput" class="text-input" type="text"
