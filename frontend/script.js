@@ -5,7 +5,7 @@
     // BACKEND CONFIGURATION
     // ==================================================
 
-    const API_URL = "http://127.0.0.1:8000/api/compress";
+    const API_URL = "https://smart-compressor-1-v6yq.onrender.com";
 
 
     // ==================================================
