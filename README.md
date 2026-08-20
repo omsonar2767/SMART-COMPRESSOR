@@ -1,190 +1,315 @@
-Smart Context Compression
+# 🚀 Smart Context Compression
 
-An intelligent context compression system that reduces large amounts of text before sending them to an LLM while preserving the information most relevant to a user's query.
+### Intelligent, Query-Aware Context Optimization for LLM Applications
 
-Overview
+> **Reduce LLM token usage without losing the information that matters.**
 
-Large Language Models (LLMs) have limited context windows. Sending unnecessary information increases:
+Smart Context Compression is an intelligent preprocessing system that reduces large amounts of text before sending them to a Large Language Model (LLM).
 
-Token usage
-API costs
-Response latency
-Prompt size
-Processing overhead
+Instead of passing an entire document to an LLM, the system identifies the information most relevant to the user's query, compresses it, and produces a smaller, query-focused context.
 
-Smart Context Compression addresses this problem by intelligently selecting and compressing only the most relevant portions of a large context before it is sent to an LLM.
+This helps reduce:
 
-Instead of sending an entire document directly to an LLM, the system processes the context through a query-aware compression pipeline:
+* 💰 LLM API costs
+* ⚡ Response latency
+* 🧠 Context-window usage
+* 📦 Prompt size
+* 🔄 Unnecessary processing
 
+---
+
+## 🧠 The Problem
+
+Modern LLM applications often provide large amounts of context to an LLM.
+
+For example:
+
+```text
+10,000-token document
+        ↓
+      LLM
+        ↓
+     Response
+```
+
+The problem is that much of those 10,000 tokens may be irrelevant to the user's question.
+
+If the user asks:
+
+> "How does BM25 ranking work?"
+
+There is no reason to send an entire 10,000-token document containing unrelated information.
+
+Smart Context Compression solves this by intelligently filtering and compressing the context before it reaches the downstream LLM.
+
+---
+
+# 💡 The Solution
+
+Our pipeline transforms:
+
+```text
 Large Context
-      ↓
+     ↓
    Chunking
-      ↓
-BM25 Relevance Ranking
-      ↓
- Relevant Chunks
-      ↓
- LLM Compression
-      ↓
- Compressed Context
-      ↓
- LLM / Application
+     ↓
+ BM25 Ranking
+     ↓
+Relevant Chunks
+     ↓
+LLM Compression
+     ↓
+Compressed Context
+     ↓
+Downstream LLM
+```
 
+The result is a smaller context containing the information most useful for answering the user's query.
 
-The primary goal is to significantly reduce the number of tokens while preserving the information required to answer the user's query.
+---
 
-Key Features
-Intelligent text chunking
-Overlapping chunks for better context preservation
-BM25-based relevance ranking
-Query-aware context selection
-LLM-based context compression
-Token counting
-Token reduction measurement
-Compression percentage calculation
-Modular backend architecture
-FastAPI REST API
-Interactive API documentation
-Frontend interface
-Testable compression pipeline
-How It Works
-1. Input Context
+# ✨ Key Features
 
-The system receives two primary inputs:
+| Feature                  | Description                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| 🧩 Smart Chunking        | Splits large documents into manageable overlapping chunks    |
+| 🔎 BM25 Ranking          | Finds chunks most relevant to the user's query               |
+| 🎯 Query-Aware Selection | Prioritizes information based on the actual question         |
+| 🤖 LLM Compression       | Removes unnecessary information while preserving key details |
+| 🔢 Token Counting        | Measures token usage before and after compression            |
+| 📊 Compression Metrics   | Calculates tokens saved and compression percentage           |
+| ⚡ FastAPI Backend        | Provides a scalable REST API                                 |
+| 📚 Swagger Documentation | Automatically generated interactive API documentation        |
+| 🧱 Modular Architecture  | Components can be developed and replaced independently       |
+| 🧪 Testable Pipeline     | Individual services and the complete pipeline can be tested  |
 
-Context
+---
 
-A large document or body of text containing potentially relevant and irrelevant information.
+# 🏗️ System Architecture
 
-Query
+```text
+                         USER QUERY
+                             │
+                             ▼
+                  ┌────────────────────┐
+                  │   Large Context    │
+                  └─────────┬──────────┘
+                            │
+                            ▼
+                  ┌────────────────────┐
+                  │      Chunker       │
+                  │                    │
+                  │ Overlapping Chunks │
+                  └─────────┬──────────┘
+                            │
+                            ▼
+                  ┌────────────────────┐
+                  │    BM25 Ranker     │
+                  │                    │
+                  │ Query Relevance    │
+                  └─────────┬──────────┘
+                            │
+                            ▼
+                  ┌────────────────────┐
+                  │  Relevant Chunks   │
+                  └─────────┬──────────┘
+                            │
+                            ▼
+                  ┌────────────────────┐
+                  │  LLM Compressor    │
+                  │                    │
+                  │ Remove Redundancy  │
+                  └─────────┬──────────┘
+                            │
+                            ▼
+                  ┌────────────────────┐
+                  │ Compressed Context │
+                  └─────────┬──────────┘
+                            │
+                            ▼
+                     ┌──────────────┐
+                     │ Downstream   │
+                     │     LLM      │
+                     └──────────────┘
+```
 
-The user's question or information requirement.
+---
+
+# 🔄 How It Works
+
+## 1. Context Input
+
+The system receives two inputs:
+
+### Context
+
+A large document or body of text.
+
+### Query
+
+The user's information requirement.
 
 Example:
 
+```text
 Context:
-A large document containing hundreds or thousands of words.
+A large technical document containing thousands of words.
 
 Query:
 How does BM25 ranking work?
+```
 
-2. Text Chunking
+---
 
-The large context is divided into smaller chunks.
+## 2. Intelligent Chunking
 
-                 Document
-                    ↓
-              ┌──────────┐
-              │ Chunk 1  │
-              └──────────┘
-                    ↓
-              ┌──────────┐
-              │ Chunk 2  │
-              └──────────┘
-                    ↓
-              ┌──────────┐
-              │ Chunk 3  │
-              └──────────┘
-                    ↓
-                   ...
+The context is divided into smaller overlapping chunks.
 
+```text
+┌─────────────────────────────┐
+│ Chunk 1                     │
+└─────────────────────────────┘
+              │
+              │ overlap
+              ▼
+        ┌─────────────────────────────┐
+        │ Chunk 2                     │
+        └─────────────────────────────┘
+                      │
+                      │ overlap
+                      ▼
+                ┌─────────────────────────────┐
+                │ Chunk 3                     │
+                └─────────────────────────────┘
+```
 
-The system uses overlapping chunks so that important information near chunk boundaries is less likely to be lost.
+Overlapping chunks help preserve information that appears near chunk boundaries.
 
-3. BM25 Relevance Ranking
+---
 
-After chunking, each chunk is ranked according to its relevance to the user's query.
+## 3. BM25 Relevance Ranking
 
-                Query
-                  ↓
-                BM25
-                  ↓
-       ┌─────────────────────┐
-       │ Chunk 3 → High      │
-       │ Chunk 7 → High      │
-       │ Chunk 2 → Medium    │
-       │ Chunk 9 → Low       │
-       └─────────────────────┘
-
-
-The highest-scoring chunks are selected for the next stage.
-
-This prevents the LLM from processing large amounts of information that are unrelated to the user's question.
-
-4. LLM-Based Compression
-
-The selected chunks are passed to an LLM.
-
-The LLM removes unnecessary information while preserving information relevant to the query.
-
-Selected Context
-       ↓
-      LLM
-       ↓
-Compressed Context
-
-
-The result is a smaller, query-focused context that can be passed to another LLM or application.
-
-5. Token Comparison
-
-The system measures the effectiveness of compression by comparing token counts before and after compression.
+Each chunk is scored against the user's query using BM25.
 
 Example:
 
-Original Tokens:       511
-Compressed Tokens:      96
-Tokens Saved:          415
-Reduction:          81.21%
+```text
+Query:
+"How does BM25 ranking work?"
 
+             BM25
+               │
+       ┌───────┴────────┐
+       ▼                ▼
+ Chunk 3             Chunk 7
+ Score: 8.7          Score: 8.2
+   HIGH                HIGH
 
-Compression percentage is calculated using:
+ Chunk 2             Chunk 9
+ Score: 4.1          Score: 1.3
+  MEDIUM               LOW
+```
 
+Only the most relevant chunks continue through the pipeline.
+
+This prevents irrelevant sections from consuming LLM context.
+
+---
+
+# 🤖 4. LLM-Based Compression
+
+The selected chunks are passed to an LLM with the user's query.
+
+The LLM removes unnecessary content while preserving information needed to answer the query.
+
+```text
+Relevant Chunks
+       │
+       ▼
+      LLM
+       │
+       ▼
+Query-Focused Context
+```
+
+The compressed context can then be sent to another LLM or application.
+
+---
+
+# 📊 5. Token Optimization
+
+The system measures the difference between the original and compressed contexts.
+
+Example:
+
+```text
+┌──────────────────────────────┐
+│ Original Tokens       10,000 │
+│ Compressed Tokens      1,500 │
+│ Tokens Saved            8,500 │
+│ Reduction                85% │
+└──────────────────────────────┘
+```
+
+### Compression Formula
+
+```text
 Compression % =
 ((Original Tokens - Compressed Tokens)
  / Original Tokens) × 100
+```
 
+For example:
 
-A higher percentage indicates greater token reduction.
+```text
+Original Tokens:      511
+Compressed Tokens:     96
 
-System Architecture
-                    User Query
-                        │
-                        ▼
-              ┌──────────────────┐
-              │  Large Context   │
-              └────────┬─────────┘
-                       │
-                       ▼
-              ┌──────────────────┐
-              │     Chunker      │
-              └────────┬─────────┘
-                       │
-                       ▼
-              ┌──────────────────┐
-              │  BM25 Ranker     │◄──── Query
-              └────────┬─────────┘
-                       │
-                       ▼
-              ┌──────────────────┐
-              │ Relevant Chunks  │
-              └────────┬─────────┘
-                       │
-                       ▼
-              ┌──────────────────┐
-              │ LLM Compressor   │
-              └────────┬─────────┘
-                       │
-                       ▼
-              ┌──────────────────┐
-              │ Compressed       │
-              │ Context          │
-              └────────┬─────────┘
-                       │
-                       ▼
-                  LLM / App
+Tokens Saved:         415
+Compression:       81.21%
+```
 
-Project Architecture
+> Results vary depending on the document, query, tokenizer, BM25 configuration, and LLM output.
+
+---
+
+# 🛠️ Technology Stack
+
+## Backend
+
+* 🐍 Python
+* ⚡ FastAPI
+* 📦 Pydantic
+* 🚀 Uvicorn
+
+## NLP / Retrieval
+
+* Text Chunking
+* BM25 Ranking
+* Tokenization
+
+## LLM
+
+* LLM API
+* Query-aware compression
+
+## Frontend
+
+* HTML
+* CSS
+* JavaScript
+
+## Development
+
+* Git
+* GitHub
+* Python Virtual Environment
+
+---
+
+# 📁 Project Structure
+
+```text
 smart-context-compression/
 │
 ├── backend/
@@ -225,151 +350,167 @@ smart-context-compression/
 ├── .gitignore
 ├── README.md
 └── ...
+```
 
+The architecture separates the main responsibilities of the system, making the project easier to maintain, test, and extend.
 
-The project structure is modular so that individual components can be developed, tested, and replaced independently.
+---
 
-Technology Stack
-Backend
-Python
-FastAPI
-Pydantic
-Uvicorn
-NLP / Retrieval
-Text chunking
-BM25 relevance ranking
-Tokenization
-LLM
-LLM API for intelligent context compression
-Frontend
-HTML
-CSS
-JavaScript
-Development
-Git
-GitHub
-Python virtual environment
-Installation
-1. Clone the Repository
+# 🚀 Getting Started
+
+## Prerequisites
+
+Make sure you have:
+
+* Python 3.10+
+* Git
+* An LLM API key
+* A modern web browser
+
+---
+
+## 1. Clone the Repository
+
+```bash
 git clone <your-repository-url>
 cd smart-context-compression
+```
 
-2. Create a Virtual Environment
-Windows
+---
+
+## 2. Create a Virtual Environment
+
+### Windows
+
+```bash
 python -m venv .venv
+```
 
-3. Activate the Virtual Environment
-Windows CMD
+---
+
+## 3. Activate the Environment
+
+### Windows CMD
+
+```bash
 .venv\Scripts\activate
+```
 
-Windows PowerShell
+### Windows PowerShell
+
+```powershell
 .venv\Scripts\Activate.ps1
+```
 
-4. Install Dependencies
+---
+
+## 4. Install Dependencies
 
 From the project root:
 
+```bash
 pip install -r backend/requirements.txt
+```
 
-Environment Variables
+---
 
-Create a .env file inside the backend directory.
+# 🔐 Environment Configuration
 
-Example:
+Create:
 
+```text
+backend/.env
+```
+
+Add your API key:
+
+```env
 GROQ_API_KEY=your_api_key_here
+```
 
+### ⚠️ Security
 
-Important: Never commit your .env file or API keys to GitHub.
+Never commit API keys to GitHub.
 
-Make sure .env is included in your .gitignore file:
+Add the following to `.gitignore`:
 
+```gitignore
 .env
 .venv/
 __pycache__/
 *.pyc
+```
 
-Running the Compression Pipeline
+If an API key is accidentally pushed to a public repository, revoke it immediately and generate a new one.
 
-Navigate to the backend directory:
+---
 
+# ▶️ Running the Backend
+
+Navigate to the backend:
+
+```bash
 cd backend
+```
 
+Start FastAPI:
 
-Run the pipeline test:
-
-python test_pipeline.py
-
-
-The test runs the complete compression pipeline:
-
-Original Context
-       ↓
-   Chunking
-       ↓
-BM25 Ranking
-       ↓
-Relevant Chunks
-       ↓
-LLM Compression
-       ↓
-Token Comparison
-
-
-A successful pipeline test may produce output similar to:
-
-Original Tokens:       511
-Compressed Tokens:      96
-Tokens Saved:          415
-Compression:        81.21%
-
-
-The exact results will vary depending on the input context, query, tokenizer, ranking configuration, and LLM response.
-
-Running the FastAPI Backend
-
-From the backend directory:
-
+```bash
 uvicorn app.main:app --reload --port 8000
+```
 
+If the `uvicorn` command is unavailable:
 
-The API will be available at:
-
-http://127.0.0.1:8000
-
-
-You can also use:
-
+```bash
 python -m uvicorn app.main:app --reload --port 8000
+```
 
+The backend will run at:
 
-if the uvicorn command is not available directly.
+```text
+http://127.0.0.1:8000
+```
 
-API Documentation
+---
 
-FastAPI automatically provides interactive API documentation.
+# 📚 API Documentation
 
-Swagger UI
+FastAPI automatically generates interactive documentation.
+
+### Swagger UI
+
+```text
 http://127.0.0.1:8000/docs
+```
 
-ReDoc
+### ReDoc
+
+```text
 http://127.0.0.1:8000/redoc
+```
 
+Swagger allows you to test API endpoints directly from your browser.
 
-Swagger UI can be used to send requests directly to the API and inspect responses.
+---
 
-API Endpoint
-POST /compress
+# 🔌 API Reference
 
-The /compress endpoint accepts a context and query and returns a compressed context along with token-level metrics.
+## `POST /compress`
 
-Request
+Compresses a large context based on a user's query.
+
+### Request
+
+```json
 {
   "context": "Your large context goes here...",
   "query": "What information is relevant to my question?"
 }
+```
 
-Response
+### Response
+
+```json
 {
   "compressed_context": "Relevant information...",
   "original_tokens": 511,
@@ -377,255 +518,388 @@ Response
   "tokens_saved": 415,
   "compression_percentage": 81.21
 }
+```
 
+---
 
-The exact response structure may evolve as the API implementation develops.
+# 🌐 Running the Frontend
 
-Frontend
+Navigate to the frontend directory:
 
-The project also includes a lightweight frontend built with:
-
-HTML
-CSS
-JavaScript
-
-The frontend provides an interface for submitting context and queries to the backend compression API.
-
-If using Python's built-in HTTP server, navigate to the frontend directory:
-
+```bash
 cd frontend
+```
 
+Start a local server:
 
-Start the frontend server:
-
+```bash
 python -m http.server 5500
+```
 
+Open:
 
-Then open:
-
+```text
 http://localhost:5500
+```
 
+Make sure the FastAPI backend is running simultaneously on port `8000`.
 
-Make sure the FastAPI backend is also running on port 8000.
+```text
+Frontend
+localhost:5500
+      │
+      │ API Request
+      ▼
+Backend
+localhost:8000
+      │
+      ▼
+Compression Pipeline
+```
 
-Testing
+---
 
-The project contains tests for individual components and the complete compression pipeline.
+# 🧪 Testing
 
-Test the Chunker
+The project contains tests for individual components as well as the complete compression pipeline.
+
+## Test Chunking
+
+From the backend directory:
+
+```bash
 python test_chunker.py
+```
 
-Test the Complete Pipeline
+## Test Complete Pipeline
+
+```bash
 python test_pipeline.py
+```
 
+The complete pipeline performs:
 
-These tests help verify that changes to individual components do not break the overall compression workflow.
+```text
+Input Context
+     ↓
+Chunking
+     ↓
+BM25 Ranking
+     ↓
+Relevant Chunk Selection
+     ↓
+LLM Compression
+     ↓
+Token Measurement
+     ↓
+Compression Metrics
+```
 
-Performance Metrics
+---
 
-Smart Context Compression focuses on measuring the following metrics:
+# 📈 Performance Metrics
 
-Metric	Description
-Original Tokens	Number of tokens before compression
-Compressed Tokens	Number of tokens after compression
-Tokens Saved	Difference between original and compressed tokens
-Compression %	Percentage reduction in token count
-Relevance	How well selected context matches the query
-Compression Percentage
+Smart Context Compression measures several important metrics.
 
-The compression percentage is calculated as:
+| Metric            | Purpose                            |
+| ----------------- | ---------------------------------- |
+| Original Tokens   | Measures the original context size |
+| Compressed Tokens | Measures the final context size    |
+| Tokens Saved      | Measures tokens removed            |
+| Compression %     | Measures overall reduction         |
+| Relevance         | Measures query-context relevance   |
 
-Compression % =
-((Original Tokens - Compressed Tokens)
- / Original Tokens) × 100
+### Example
 
-Example
-Original Tokens:       511
-Compressed Tokens:      96
+```text
+Original Context
+       ↓
+    10,000 tokens
 
-Tokens Saved:          415
-Compression:        81.21%
+       ↓
 
-Why Smart Context Compression?
-Reduced Token Usage
+BM25 Selection
 
-Only relevant information is sent to the downstream LLM.
+       ↓
 
-Lower Cost
+Relevant Context
 
-Reducing input tokens can lower LLM API costs.
+       ↓
 
-Lower Latency
+LLM Compression
 
-Smaller prompts can reduce the amount of information the LLM needs to process.
+       ↓
 
-Better Context Quality
+1,500 tokens
+```
 
-Irrelevant information is removed before reaching the downstream LLM.
+Potential reduction:
 
-Query-Aware Compression
+```text
+85% fewer tokens
+```
 
-The system does not blindly summarize the entire document.
+The actual result depends on the input.
 
-Instead, it first identifies information relevant to the user's query and then compresses the selected context.
+---
 
-Example Workflow
+# 🎯 Example Use Case
 
-Suppose an application has a document containing 10,000 tokens.
+Imagine an application has a 10,000-token technical document.
 
 The user asks:
 
+```text
 How does BM25 ranking work?
+```
 
+### Traditional Approach
 
-Instead of sending all 10,000 tokens to an LLM:
-
-10,000 Token Document
-        ↓
-      Chunking
-        ↓
-   BM25 Ranking
-        ↓
- Relevant Chunks
-        ↓
- LLM Compression
-        ↓
-   1,500 Tokens
-        ↓
- Downstream LLM
-
-
-This can significantly reduce the amount of context that needs to be processed.
-
-The actual reduction depends on the input document, query, chunking configuration, BM25 ranking, compression strategy, and LLM output.
-
-Advantages
-Intelligent Retrieval
-
-BM25 identifies the sections most relevant to the user's query.
-
-Context Preservation
-
-Overlapping chunks help reduce information loss at chunk boundaries.
-
-Modular Design
-
-Chunking, ranking, compression, and token counting are separated into independent services.
-
-Measurable Results
-
-The system provides token counts and compression metrics to evaluate performance.
-
-LLM-Agnostic Architecture
-
-The compression layer can serve as an intermediate optimization step before a downstream LLM.
-
-Future Improvements
-
-Planned improvements include:
-
- PDF/document uploads
- Multiple compression strategies
- Improved relevance evaluation
- Compression quality scoring
- Vector-based retrieval
- Streaming responses
- Authentication
- Production deployment
- Performance optimization
- Detailed analytics dashboard
-Future Vision
-
-The long-term goal is to build a general-purpose context optimization layer for LLM applications.
-
-Instead of applications directly sending large amounts of information to an LLM, they can route their context through Smart Context Compression first.
-
-Application
-     ↓
-Smart Context Compression
-     ↓
-Relevant + Compressed Context
-     ↓
-LLM
-     ↓
-Response
-
-
-This architecture can help applications reduce unnecessary token usage while maintaining the information required for high-quality responses.
-
-Project Goal
-
-The primary goal of Smart Context Compression is:
-
-Reduce LLM context size intelligently without losing the information that matters.
-
-The project combines:
-
-Text Chunking
-      +
-BM25 Retrieval
-      +
-Query Relevance
-      +
-LLM Compression
-      +
-Token Measurement
+```text
+10,000 tokens
       ↓
-Smart Context Optimization
+     LLM
+      ↓
+   Response
+```
 
+### Smart Context Compression
 
-The result is a modular pipeline that can act as a preprocessing layer between applications and LLMs.
+```text
+10,000 tokens
+      ↓
+   Chunking
+      ↓
+ BM25 Ranking
+      ↓
+Relevant Chunks
+      ↓
+LLM Compression
+      ↓
+ 1,500 tokens
+      ↓
+ Downstream LLM
+      ↓
+   Response
+```
 
-Contributing
+Instead of sending the entire document, the system creates a smaller, query-focused context.
 
-Contributions, suggestions, and improvements are welcome.
+---
 
-A typical workflow:
+# 💡 Why This Matters
 
+## 💰 Lower Cost
+
+Fewer input tokens can reduce LLM API costs.
+
+## ⚡ Lower Latency
+
+Smaller prompts can reduce processing requirements.
+
+## 🧠 Better Context
+
+The downstream LLM receives information that is more relevant to the user's question.
+
+## 📦 Efficient Context Windows
+
+Applications can fit more useful information into limited context windows.
+
+## 🎯 Query-Aware Processing
+
+The system doesn't simply summarize everything.
+
+It first asks:
+
+> **"Which parts of this context actually matter for this query?"**
+
+Then it compresses those parts.
+
+---
+
+# 🧩 Design Principles
+
+### Query First
+
+The user's query determines what information is important.
+
+### Retrieve Before Compressing
+
+Relevant information is selected before the LLM performs compression.
+
+### Preserve Important Information
+
+Compression should reduce redundancy without removing information required to answer the query.
+
+### Measure Everything
+
+Token counts provide measurable evidence of optimization.
+
+### Keep Components Modular
+
+Each stage can be independently improved or replaced.
+
+---
+
+# 🗺️ Roadmap
+
+* [ ] PDF and document uploads
+* [ ] Multiple document support
+* [ ] Multiple compression strategies
+* [ ] Compression quality scoring
+* [ ] Relevance evaluation
+* [ ] Vector-based retrieval
+* [ ] Hybrid BM25 + vector search
+* [ ] Streaming responses
+* [ ] Authentication
+* [ ] Rate limiting
+* [ ] Production deployment
+* [ ] Performance analytics
+* [ ] Token-cost estimation
+* [ ] Compression history
+* [ ] Advanced analytics dashboard
+
+---
+
+# 🔮 Future Vision
+
+Smart Context Compression is designed to become a **general-purpose context optimization layer for LLM applications**.
+
+Instead of applications directly sending large amounts of information to an LLM:
+
+```text
+                    ┌─────────────────┐
+                    │   Application   │
+                    └────────┬────────┘
+                             │
+                             ▼
+              ┌───────────────────────────┐
+              │ Smart Context Compression │
+              └─────────────┬─────────────┘
+                            │
+                            ▼
+                 Relevant + Compressed
+                       Context
+                            │
+                            ▼
+                     ┌────────────┐
+                     │    LLM     │
+                     └─────┬──────┘
+                           │
+                           ▼
+                        Response
+```
+
+This architecture can be integrated into:
+
+* RAG applications
+* AI assistants
+* Document analysis systems
+* Enterprise search
+* Chatbots
+* Agentic AI systems
+* Knowledge-management platforms
+* LLM-powered applications
+
+---
+
+# 🔒 Security
+
+Security is an important part of the project.
+
+### Never commit:
+
+```text
+API keys
+Passwords
+Access tokens
+.env files
+Private credentials
+```
+
+Use environment variables instead:
+
+```env
+GROQ_API_KEY=your_api_key_here
+```
+
+And keep `.env` in `.gitignore`.
+
+---
+
+# 🤝 Contributing
+
+Contributions and suggestions are welcome.
+
+### Fork the repository
+
+```bash
 git clone <your-repository-url>
 cd smart-context-compression
+```
 
+### Create a feature branch
+
+```bash
+git checkout -b feature/your-feature
+```
+
+### Install dependencies
+
+```bash
 python -m venv .venv
 .venv\Scripts\activate
-
 pip install -r backend/requirements.txt
+```
 
+### Make your changes
 
-Create a feature branch:
+Test the pipeline before submitting a pull request.
 
-git checkout -b feature/your-feature
+```bash
+python test_chunker.py
+python test_pipeline.py
+```
 
+Then commit your changes:
 
-Make your changes, test them, and submit a pull request.
+```bash
+git add .
+git commit -m "Add your feature"
+git push origin feature/your-feature
+```
 
-Security
+---
 
-Never commit API keys or other secrets to the repository.
+# 📄 License
 
-Use environment variables for sensitive configuration:
+This project is currently intended for development and educational purposes.
 
-GROQ_API_KEY=your_api_key_here
+Before publishing the project publicly, add an open-source license such as the **MIT License**.
 
+---
 
-Add the environment file to .gitignore:
+# 👨‍💻 Author
 
-.env
+## Satyam
 
+**Smart Context Compression**
 
-If an API key is accidentally exposed, revoke it immediately and generate a new one.
+> Building intelligent systems that make LLM applications more efficient.
 
-License
+---
 
-This project is currently available for development and educational purposes.
+# ⭐ Support
 
-Add your preferred open-source license here, such as the MIT License, before publishing the repository.
+If you find **Smart Context Compression** useful:
 
-Author
+⭐ Star the repository
+🐛 Report issues
+💡 Suggest improvements
+🤝 Contribute to the project
 
-Satyam
+---
 
-Smart Context Compression — an intelligent context optimization system for LLM applications.
+## 🚀 Smart Context Compression
 
-⭐ If You Find This Project Useful
-
-Consider giving the repository a ⭐ on GitHub and sharing feedback or suggestions for improving the compression pipeline.
+> **Don't send everything to the LLM. Send what matters.**
